@@ -1,23 +1,36 @@
 import './sass/_common.scss';
+import axios from 'axios';
+import Notiflix from 'notiflix';
+import NewsApiService from './js/news-api-service';
 
 const refs = {
   searchForm: document.querySelector('#search-form'),
   gallery: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
 };
+const newsApiService = new NewsApiService();
 
-let perPage = 20;
-let page = 1;
-// let searchQuery = '';
+let perPage = 40;
+let currentPage = 1;
+let currentHits = 0;
 
 refs.searchForm.addEventListener('submit', onSearch);
+// refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
-function onSearch(event) {
+function onSearch(e) {
   e.preventDefault();
-  searchQuery = event.currentTarget.elements.query.value.trim();
-  const BASE_URL = 'https://pixabay.com/api/';
-  const KEY = '28143013-44919de38ad9e5402793063fb';
-  const response = get(
-    `${BASE_URL}?key=${KEY}&q=${searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=${perPage}`
-  );
+  newsApiService.query = e.currentTarget.searchQuery.value.trim();
+  newsApiService.fetchArticles();
+
+  // if (searchQuery === '') {
+  //   return;
+  // }
 }
+function onLoadMore(params) {
+  newsApiService.fetchArticles();
+}
+// function noMatchingSearch() {
+//   Notiflix.Notify.failure(
+//     'Sorry, there are no images matching your search query. Please try again.'
+//   );
+// }
