@@ -32,10 +32,14 @@ async function onSearch(event) {
     console.log('empty');
     return;
   }
-  const result = await addImagesList();
-  console.log(result);
-
-  const data = await addImagesList(page, searchValue);
+  const data = await addImagesList(currentPage, searchValue);
+  console.log(data);
+  const arrayOfResults = data.hits;
+  // console.log(arrayOfResults);
+  // console.log(data.totalHits);
+  if (data.hits.length > 0) {
+    markupCard();
+  }
 }
 
 addImagesList();
@@ -48,6 +52,37 @@ async function addImagesList() {
     }
     throw new Error(response.statusText);
   });
+}
+
+function markupCard(data) {
+  let markup = data
+    .map(card => {
+      return `<div class="photo-card">
+        <a href="${card.largeImageURL}">
+                 <img class="photo-card-img" src="${card.webformatURL}" alt="${card.tags}" loading="lazy" />
+                 </a>
+                     <div class="info">
+                         <p class="info-item">
+                         <b>Likes</b>
+                           <span class="span">${card.likes}</span>
+                         </p>
+                         <p class="info-item">
+                           <b>Views</b>
+                           <span class="span">${card.views}</span>
+                         </p>
+                         <p class="info-item">
+                           <b>Comments</b>
+                           <span class="span">${card.comments}</span>
+                         </p>
+                         <p class="info-item">
+                           <b>Downloads</b>
+                           <span class="span">${card.downloads}</span>
+                          </p>
+                  </div>
+            </div>`;
+    })
+    .join('');
+  galleryEl.innerHTML = markup;
 }
 
 function resetPage() {
