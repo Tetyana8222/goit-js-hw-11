@@ -20,20 +20,43 @@ body {
   border-radius: 5px;
   max-width: 520px;
   width: 100%;
-  max-width: 500px;
   margin: 16px auto;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(102, 160, 112, 0.5);
+}
+.search-input {
+  font: inherit;
+  max-width: 350px;
+  width: 100%;
+  border-radius: 5px;
+  margin: 16px auto;
+  padding: 10px;
   display: block;
 }
 
+button {
+  width: 100px;
+  height: 45px;
+  margin: auto;
+  font: inherit;
+  border-radius: 5px;
+  padding: 10px auto;
+}
+
+.load-more {
+  background-color: rgb(202, 67, 18);
+  margin: 20px auto;
+}
 .gallery {
   flex-wrap: wrap;
-  margin: -10px;
+  margin: 10 auto;
   padding-top: 100px;
   display: flex;
+  align-items: center;
 }
 .photo-card {
-  //  calc(33.3333% - 20px);
-  background-color: rgba(67, 45, 25, 0.256);
+  // background-color: rgba(221, 229, 232, 0.256);
   border-radius: 5px;
   margin: 10px;
   overflow: hidden;
@@ -41,7 +64,7 @@ body {
 }
 img {
   height: 200px;
-  width: 100%;
+  width: 400px;
   object-fit: cover;
   overflow: hidden;
 }
