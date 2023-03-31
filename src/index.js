@@ -47,7 +47,7 @@ async function onSearch(event) {
     return;
   }
   if (data.hits.length > 0) {
-    galleryEl.insertAdjacentHTML('beforeend', markup);
+    markupCard(arrayOfResults);
   }
 }
 
