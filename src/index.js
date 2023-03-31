@@ -4,6 +4,7 @@ import axios from 'axios';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import debounce from 'lodash.debounce';
 
 const KEY = '34781743-09d11a08c8aa729d147b2c9f6';
 const BASE_URL = 'https://pixabay.com/api/';
@@ -17,7 +18,7 @@ let lastSearchValue = '';
 var lightbox = new SimpleLightbox('.gallery a', {
   /* options */
 });
-let perPage = 3;
+let perPage = 40;
 let currentPage = 1;
 let total = '';
 
