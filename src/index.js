@@ -16,18 +16,20 @@ let gallery = new SimpleLightbox('.gallery a');
 let perPage = 10;
 let currentPage = 1;
 let currentHits = 0;
+let hits = 0;
 
 searchFormEl.addEventListener('submit', onSearch);
 // refs.loadMoreBtnEl.addEventListener('click', onLoadMore);
 
 async function onSearch(event) {
   event.preventDefault();
-  resetPage();
+
   searchValue = event.currentTarget.searchQuery.value.trim();
   console.log(searchValue);
   currentPage = 1;
   if (searchValue === '') {
     // galleryEl.innerHTML = '';
+    Notiflix.Notify.warning('Please enter a keyword to continue the search');
     console.log('empty');
     return;
   }
@@ -36,8 +38,15 @@ async function onSearch(event) {
   const arrayOfResults = data.hits;
   // console.log(arrayOfResults);
   // console.log(data.totalHits);
-  if (data.hits.length > 0) {
-    markupCard();
+  if (data.totalHits === 0) {
+    page = 1;
+    Notiflix.Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+    return;
+  }
+  if (arrayOfResults.length > 0) {
+    galleryEl.insertAdjacentHTML('beforeend', markup);
   }
 }
 
@@ -58,31 +67,26 @@ function markupCard(arrayOfResults) {
     .map(
       card =>
         `<div class="photo-card">
-        <a href="${card.largeImageURL}">
-                 <img class="photo-card-img" src="${card.webformatURL}" alt="${card.tags}" loading="lazy" />
-                 </a>
-                     <div class="info">
-                         <p class="info-item">
-                         <b>Likes</b>
-                           <span class="span">${card.likes}</span>
-                         </p>
-                         <p class="info-item">
-                           <b>Views</b>
-                           <span class="span">${card.views}</span>
-                         </p>
-                         <p class="info-item">
-                           <b>Comments</b>
-                           <span class="span">${card.comments}</span>
-                         </p>
-                         <p class="info-item">
-                           <b>Downloads</b>
-                           <span class="span">${card.downloads}</span>
-                          </p>
-                  </div>
+              <a href="${card.largeImageURL}">      
+              <div class="thumb">  
+              <img
+                src="${card.webformatURL}"
+                alt=" ${card.webformatURL}"
+                loading="lazy"
+                />
+                </div>
+              </a>
+              <div class="info">
+                <p class="info-item"><b>Likes</b><br> ${card.likes}</p>
+                <p class="info-item"><b>Views</b><br> ${card.views}</p>
+                <p class="info-item"><b>Comments</b><br> ${card.comments}</p>
+                <p class="info-item"><b>Downloads</b><br> ${card.downloads}</p>
+              </div>
             </div>`
     )
     .join('');
-  galleryEl.insertAdjacentHTML('beforebegin', markup);
+
+  galleryEl.insertAdjacentHTML('beforeend', markup);
 }
 
 function resetPage() {
