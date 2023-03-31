@@ -23,7 +23,6 @@ searchFormEl.addEventListener('submit', onSearch);
 
 async function onSearch(event) {
   event.preventDefault();
-
   searchValue = event.currentTarget.searchQuery.value.trim();
   console.log(searchValue);
   currentPage = 1;
@@ -40,13 +39,15 @@ async function onSearch(event) {
   // console.log(data.totalHits);
   if (data.totalHits === 0) {
     page = 1;
+    gallery.innerHTML = '';
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
   }
-  if (arrayOfResults.length > 0) {
-    galleryEl.insertAdjacentHTML('beforeend', markup);
+  if (data.hits.length > 0) {
+    // galleryEl.insertAdjacentHTML('beforeend', markup);
+    markupCard(arrayOfResults);
   }
 }
 
