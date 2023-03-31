@@ -1,4 +1,5 @@
 import './sass/_common.scss';
+// import fetchImages from './js/fetchImages';
 import axios from 'axios';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
@@ -27,7 +28,7 @@ async function onSearch(event) {
   console.log(searchValue);
   currentPage = 1;
   if (searchValue === '') {
-    // galleryEl.innerHTML = '';
+    galleryEl.innerHTML = '';
     Notiflix.Notify.warning('Please enter a keyword to continue the search');
     console.log('empty');
     return;
@@ -46,8 +47,7 @@ async function onSearch(event) {
     return;
   }
   if (data.hits.length > 0) {
-    // galleryEl.insertAdjacentHTML('beforeend', markup);
-    markupCard(arrayOfResults);
+    galleryEl.insertAdjacentHTML('beforeend', markup);
   }
 }
 
@@ -68,8 +68,8 @@ function markupCard(arrayOfResults) {
     .map(
       card =>
         `<div class="photo-card">
-              <a href="${card.largeImageURL}">      
-              <div class="thumb">  
+              <a href="${card.largeImageURL}">
+              <div class="thumb">
               <img
                 src="${card.webformatURL}"
                 alt=" ${card.webformatURL}"
