@@ -25,6 +25,36 @@ body {
   display: block;
 }
 
-.is-hidden {
-  display: none;
+.gallery {
+  flex-wrap: wrap;
+  margin: -10px;
+  padding-top: 100px;
+  display: flex;
+}
+.photo-card {
+  //  calc(33.3333% - 20px);
+  background-color: rgba(67, 45, 25, 0.256);
+  border-radius: 5px;
+  margin: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 5px 2px rgba(0, 4, 56, 0.5);
+}
+img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.info {
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  display: flex;
+}
+
+.info-item {
+  text-align: center;
+  flex-direction: column;
+  display: flex;
 }

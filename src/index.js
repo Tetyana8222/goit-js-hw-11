@@ -14,10 +14,12 @@ const loadMoreBtnEl = document.querySelector('.load-more');
 
 let searchValue = '';
 let gallery = new SimpleLightbox('.gallery a');
-let perPage = 10;
+let perPage = 40;
 let currentPage = 1;
 let currentHits = 0;
 let hits = 0;
+// ------робимо кноку loadMoreBtn невидимою-------
+loadMoreBtnEl.style.display = 'none';
 
 searchFormEl.addEventListener('submit', onSearch);
 // refs.loadMoreBtnEl.addEventListener('click', onLoadMore);
@@ -27,8 +29,9 @@ async function onSearch(event) {
   searchValue = event.currentTarget.searchQuery.value.trim();
   console.log(searchValue);
   currentPage = 1;
+  //-------якщо вікно пошуку пусте, то повідомлення
   if (searchValue === '') {
-    galleryEl.innerHTML = '';
+    galleryEl.refresh();
     Notiflix.Notify.warning('Please enter a keyword to continue the search');
     console.log('empty');
     return;
@@ -38,16 +41,21 @@ async function onSearch(event) {
   const arrayOfResults = data.hits;
   // console.log(arrayOfResults);
   // console.log(data.totalHits);
+  //-------якщо результат пошуку 0, то повідомлення
   if (data.totalHits === 0) {
     page = 1;
-    gallery.innerHTML = '';
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
+    galleryEl.refresh();
     return;
   }
+  // ----якщо результат пошуку - непорожній масив, то
   if (data.hits.length > 0) {
     markupCard(arrayOfResults);
+    Notiflix.Notify.info(`Hooray! We found ${data.totalHits} images.`);
+    loadMoreBtnEl.style.display = 'block';
+    galleryEl.refresh();
   }
 }
 
@@ -70,7 +78,7 @@ function markupCard(arrayOfResults) {
         `<div class="photo-card">
               <a href="${card.largeImageURL}">
               <div class="thumb">
-              <img
+              <img 
                 src="${card.webformatURL}"
                 alt=" ${card.webformatURL}"
                 loading="lazy"
