@@ -64,10 +64,13 @@ async function onSearch(event) {
     Notiflix.Notify.info(`Hooray! We found ${data.totalHits} images.`);
     loadMoreBtnEl.style.display = 'block';
   }
+  onLoadMore();
 }
 async function onLoadMore() {
   let data = await addImagesList(lastSearchValue, currentPage);
   const arrayOfResults = data.hits;
+  console.log(arrayOfResults);
+  console.log(data.totalHits);
 
   if (arrayOfResults.length > 0) {
     markupCard(arrayOfResults);
@@ -77,7 +80,7 @@ async function onLoadMore() {
     }
     currentPage += 1;
   }
-  if (data.totalHits >= total) {
+  if (arrayOfResults >= data.totalHits) {
     Notiflix.Notify.warning(
       `We're sorry, but you've reached the end of search results.`
     );
