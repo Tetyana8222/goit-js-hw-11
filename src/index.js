@@ -19,6 +19,7 @@ var lightbox = new SimpleLightbox('.gallery a', {
 });
 let perPage = 3;
 let currentPage = 1;
+let total = '';
 
 // ------робимо кноку loadMoreBtn невидимою-------
 loadMoreBtnEl.style.display = 'none';
@@ -66,8 +67,7 @@ async function onSearch(event) {
 async function onLoadMore() {
   let data = await addImagesList(lastSearchValue, currentPage);
   const arrayOfResults = data.hits;
-  // console.log(arrayOfResults);
-  // console.log(data.totalHits);
+
   if (arrayOfResults.length > 0) {
     markupCard(arrayOfResults);
     loadMoreBtnEl.style.display = 'block';
@@ -76,11 +76,10 @@ async function onLoadMore() {
     }
     currentPage += 1;
   }
-   if (currentPage > 1 && secondRequestOutofData === false) {
-      endOfPicturesNotification();
-      console.log('Збіги закінчилися');
-      secondRequestOutofData = true;
-    }
+  if (data.totalHits >= total) {
+    Notiflix.Notify.warning(
+      `We're sorry, but you've reached the end of search results.`
+    );
   }
 }
 async function addImagesList() {
