@@ -3,7 +3,6 @@ import axios from 'axios';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-// import refs from './js/refs';
 
 const KEY = '34781743-09d11a08c8aa729d147b2c9f6';
 const BASE_URL = 'https://pixabay.com/api/';
@@ -54,10 +53,11 @@ async function addImagesList() {
   });
 }
 
-function markupCard(data) {
-  let markup = data
-    .map(card => {
-      return `<div class="photo-card">
+function markupCard(arrayOfResults) {
+  let markup = arrayOfResults
+    .map(
+      card =>
+        `<div class="photo-card">
         <a href="${card.largeImageURL}">
                  <img class="photo-card-img" src="${card.webformatURL}" alt="${card.tags}" loading="lazy" />
                  </a>
@@ -79,10 +79,10 @@ function markupCard(data) {
                            <span class="span">${card.downloads}</span>
                           </p>
                   </div>
-            </div>`;
-    })
+            </div>`
+    )
     .join('');
-  galleryEl.innerHTML = markup;
+  galleryEl.insertAdjacentHTML('beforebegin', markup);
 }
 
 function resetPage() {
