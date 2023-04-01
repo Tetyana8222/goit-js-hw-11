@@ -1,5 +1,5 @@
 import './sass/_common.scss';
-// import fetchImages from './js/fetchImages';
+
 import axios from 'axios';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
@@ -14,7 +14,6 @@ const galleryEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.load-more');
 
 let lastSearchValue = '';
-// let gallery = new SimpleLightbox('.gallery a');
 var lightbox = new SimpleLightbox('.gallery a', {
   /* options */
 });
@@ -34,6 +33,7 @@ async function onSearch(event) {
   //-------якщо вікно пошуку пусте, то повідомлення
   if (searchValue === '') {
     Notiflix.Notify.warning('Please enter a keyword to continue the search');
+    loadMoreBtnEl.style.display = 'none';
     return;
   }
   if (searchValue === lastSearchValue) {
@@ -80,10 +80,11 @@ async function onLoadMore() {
     }
     currentPage += 1;
   }
-  if (arrayOfResults >= data.totalHits) {
+  if (currentPage >= Math.ceil(data.totalHits / 40)) {
     Notiflix.Notify.warning(
       `We're sorry, but you've reached the end of search results.`
     );
+    loadMoreBtnEl.style.display = 'none';
   }
 }
 async function addImagesList() {
@@ -126,3 +127,12 @@ function markupCard(arrayOfResults) {
 function resetPage() {
   currentPage = 1;
 }
+
+//функція-слухач скролу
+window.addEventListener('scroll', () => {
+  const documentRect = document.documentElement.getBoundingClientRect();
+  if (documentRect.bottom < document.documentElement.clientHeight + 150) {
+    currentPage++;
+    onLoadMore();
+  }
+});
