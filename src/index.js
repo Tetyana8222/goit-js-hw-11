@@ -13,6 +13,7 @@ const searchFormEl = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.load-more');
 
+let searchValue = '';
 let lastSearchValue = '';
 var lightbox = new SimpleLightbox('.gallery a', {
   /* options */
@@ -32,6 +33,7 @@ async function onSearch(event) {
   searchValue = event.currentTarget.searchQuery.value.trim();
   //-------якщо вікно пошуку пусте, то повідомлення
   if (searchValue === '') {
+    galleryEl.innerHTML = '';
     Notiflix.Notify.warning('Please enter a keyword to continue the search');
     loadMoreBtnEl.style.display = 'none';
     return;
@@ -128,7 +130,7 @@ function resetPage() {
   currentPage = 1;
 }
 
-//функція-слухач скролу
+//-----функція-слухач скролу---//
 window.addEventListener('scroll', () => {
   const documentRect = document.documentElement.getBoundingClientRect();
   if (documentRect.bottom < document.documentElement.clientHeight + 150) {
