@@ -53,7 +53,7 @@ async function onSearch(event) {
 
   //-------якщо результат пошуку 0, то повідомлення------//
   if (data.totalHits === 0) {
-    page = 1;
+    currentPage = 1;
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
