@@ -30,8 +30,8 @@ searchFormEl.addEventListener('submit', onSearch);
 loadMoreBtnEl.addEventListener('click', onLoadMore);
 
 async function onSearch(event) {
+  event.preventDefault();
   try {
-    event.preventDefault();
     searchValue = event.currentTarget.searchQuery.value.trim();
     //-------якщо вікно пошуку пусте, то повідомлення
     if (searchValue === '') {
