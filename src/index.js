@@ -56,6 +56,7 @@ async function onSearch(event) {
     //-------якщо результат пошуку 0, то повідомлення------//
     if (data.totalHits === 0) {
       currentPage = 1;
+      loadMoreBtnEl.style.display = 'none';
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
@@ -63,12 +64,14 @@ async function onSearch(event) {
       return;
     }
     // --якщо результат пошуку - непорожній масив, то повідомлення---//
-    if (data.hits.length > 0) {
+    if (arrayOfResults.length > 0) {
       markupCard(arrayOfResults);
-      // Notiflix.Notify.info(`Hooray! We found ${data.totalHits} images.`);
       loadMoreBtnEl.style.display = 'block';
+      if (currentPage === 1) {
+        Notiflix.Notify.info(`Hooray! We found ${data.totalHits} images.`);
+      }
+      currentPage += 1;
     }
-    onLoadMore();
   } catch (error) {
     console.log('mistake');
   }
