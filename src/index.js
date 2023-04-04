@@ -103,11 +103,11 @@ async function onLoadMore() {
 }
 async function addImagesList() {
   try {
-    const response = await fetch(
+    const response = await axios(
       `${BASE_URL}?key=${KEY}&q=${searchValue}&type=photo&orientation=horizontal&safesearch=true&per_page=${perPage}&page=${currentPage}`
     );
 
-    const promice = response.json();
+    const promice = response.data;
     return promice;
   } catch (error) {
     console.log('mistake');
